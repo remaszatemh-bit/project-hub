@@ -1,0 +1,65 @@
+{% load static %}<!doctype html>
+<html lang="en" data-theme="{{ theme }}">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Project Hub</title>
+    <link rel="icon" href="{% static 'hub/favicon.ico' %}?v=3" sizes="any" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="256x256"
+      href="{% static 'hub/logo_256.png' %}?v=3"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="{% static 'hub/logo_32.png' %}?v=3"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="{% static 'hub/logo_16.png' %}?v=3"
+    />
+    <link rel="stylesheet" href="{% static 'hub/style.css' %}" />
+  </head>
+  <body>
+    {% csrf_token %}
+    <aside>
+      <div class="logo">
+        <img
+          src="{% static 'hub/logo_128.png' %}"
+          alt=""
+          class="side-logo"
+        />Project Hub
+      </div>
+      <div class="nav active" data-v="kanban">Kanban Board</div>
+      <div class="nav" data-v="tasks">My Tasks</div>
+      <div class="nav" data-v="pomodoro">Pomodoro</div>
+      <div class="nav" data-v="calendar">Calendar</div>
+      <div class="nav" data-v="analytics">Analytics</div>
+      <div class="spacer"></div>
+      <div class="nav" id="tg">Light Mode</div>
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button class="nav logout" type="submit">
+          Log out ({{ user.username }})
+        </button>
+      </form>
+    </aside>
+    <main>
+      <header>
+        <h1 id="title">Kanban Board</h1>
+        <button class="btn" id="newBtn">+ New Task</button>
+      </header>
+      <div class="content" id="content"></div>
+    </main>
+    <div id="modal" class="modal-bg"></div>
+    <script src="{% static 'hub/app.js' %}"></script>
+  </body>
+</html>

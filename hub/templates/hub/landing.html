@@ -1,0 +1,117 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Hub · Plan, focus, and track your progress</title>
+<meta name="description" content="Project Hub: Kanban boards, Pomodoro time tracking, a calendar, and analytics in one app.">
+<link rel="icon" href="{% static 'hub/favicon.ico' %}?v=3" sizes="any">
+<link rel="icon" type="image/png" sizes="256x256" href="{% static 'hub/logo_256.png' %}?v=3">
+<link rel="icon" type="image/png" sizes="32x32" href="{% static 'hub/logo_32.png' %}?v=3">
+<link rel="icon" type="image/png" sizes="16x16" href="{% static 'hub/logo_16.png' %}?v=3">
+<link rel="apple-touch-icon" href="{% static 'hub/logo_256.png' %}?v=3">
+<link rel="stylesheet" href="{% static 'hub/style.css' %}">
+<link rel="stylesheet" href="{% static 'hub/landing.css' %}">
+</head>
+<body class="landing">
+
+<nav class="topnav">
+  <div class="brand"><img src="{% static 'hub/logo_128.png' %}" alt="Project Hub logo" class="brand-logo">Project Hub</div>
+  <div class="navlinks">
+    <a href="#features">Features</a>
+    <a href="#how">How it works</a>
+    <a href="#demo">Demo</a>
+  </div>
+  <div class="navcta">
+    <a class="btn ghost" href="{% url 'login' %}">Log in</a>
+    <a class="btn" href="{% url 'register' %}">Get started</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-text">
+    <span class="pill">Tasks · Focus · Progress</span>
+    <h1>Plan your work. Focus on what matters. See your progress.</h1>
+    <p>Project Hub brings your tasks, deadlines, and focus sessions into one place. Move cards across a Kanban board, track time with Pomodoro, and see how you are doing with charts built from your own data.</p>
+    <div class="cta">
+      <a class="btn big" href="{% url 'register' %}">Start for free</a>
+      <a class="btn ghost big" href="#demo">Watch the demo</a>
+    </div>
+  </div>
+
+  <div class="hero-visual" aria-hidden="true">
+    <div class="mock">
+      <div class="mock-bar"><span></span><span></span><span></span></div>
+      <div class="mock-cols">
+        <div class="mcol"><h4>To Do</h4>
+          <div class="mcard c1">Homepage Redesign</div>
+          <div class="mcard c2">Onboarding Copy</div>
+        </div>
+        <div class="mcol"><h4>In Progress</h4>
+          <div class="mcard c3">Build Auth API</div>
+          <div class="mcard c4">Fix Login Bug</div>
+        </div>
+        <div class="mcol"><h4>Review</h4>
+          <div class="mcard c5">Drag &amp; Drop Board</div>
+        </div>
+        <div class="mcol"><h4>Done</h4>
+          <div class="mcard c6">Setup Database</div>
+        </div>
+      </div>
+      <div class="mock-timer"><b>24:37</b><span>Focus session · Build Auth API</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="strip">
+  <div><b>4</b><span>stages on your board</span></div>
+  <div><b>25/5</b><span>Pomodoro focus and break</span></div>
+  <div><b>Auto</b><span>your changes are saved as you work</span></div>
+</section>
+
+<section class="section" id="features">
+  <h2>Everything for your day, in one app</h2>
+  <p class="sub">Each view uses the same data, so a change in one place shows up everywhere.</p>
+  <div class="feat-grid">
+    <div class="feat"><h3>Kanban Board</h3><p>Four stages from To Do to Done. Drag tasks between them and the change is saved right away.</p></div>
+    <div class="feat"><h3>My Tasks</h3><p>A clear list with search and filters for priority, tag, and status.</p></div>
+    <div class="feat"><h3>Pomodoro Timer</h3><p>25-minute focus sessions with 5-minute breaks. Your time is recorded on the task you picked.</p></div>
+    <div class="feat"><h3>Task Details</h3><p>Edit priority, due date, and project. Break work into a checklist and watch the progress bar fill.</p></div>
+    <div class="feat"><h3>Calendar</h3><p>See every deadline on a monthly calendar. Click a task to open it.</p></div>
+    <div class="feat"><h3>Analytics</h3><p>Active tasks, average time per task, completion rate, and a weekly chart of what you finished.</p></div>
+  </div>
+</section>
+
+<section class="section alt" id="how">
+  <h2>How it works</h2>
+  <div class="steps">
+    <div class="step"><span>1</span><h3>Create a task</h3><p>Give it a name, a priority, a tag, and a due date.</p></div>
+    <div class="step"><span>2</span><h3>Plan it on the board</h3><p>Move it from To Do to Done as you make progress.</p></div>
+    <div class="step"><span>3</span><h3>Focus and track</h3><p>Start a Pomodoro session and check your stats as they grow.</p></div>
+  </div>
+</section>
+
+<section class="section" id="demo">
+  <h2>See it in action</h2>
+  <p class="sub">A one-minute tour: create a task, move it across the board, track focus time, and check your stats.</p>
+  <div class="video-wrap">
+    <video controls preload="metadata" playsinline>
+      <source src="{% static 'hub/demo.mp4' %}" type="video/mp4">
+      Your browser does not support embedded videos.
+    </video>
+  </div>
+</section>
+
+<section class="final">
+  <h2>Ready to get organized?</h2>
+  <p>Create a free account and add your first task in under a minute.</p>
+  <a class="btn big" href="{% url 'register' %}">Create my account</a>
+</section>
+
+<footer class="foot">
+  <span class="foot-brand"><img src="{% static 'hub/logo_128.png' %}" alt="" class="foot-logo">Project Hub</span>
+  <span><a href="{% url 'login' %}">Log in</a> · <a href="{% url 'register' %}">Register</a></span>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Hub · {{ mode|title }}</title>
+<link rel="icon" href="{% static 'hub/favicon.ico' %}?v=3" sizes="any">
+<link rel="icon" type="image/png" sizes="256x256" href="{% static 'hub/logo_256.png' %}?v=3">
+<link rel="icon" type="image/png" sizes="32x32" href="{% static 'hub/logo_32.png' %}?v=3">
+<link rel="icon" type="image/png" sizes="16x16" href="{% static 'hub/logo_16.png' %}?v=3">
+<link rel="stylesheet" href="{% static 'hub/style.css' %}">
+</head>
+<body class="auth-body">
+<div class="auth-card">
+  <div class="logo"><img src="{% static 'hub/logo_128.png' %}" alt="" class="side-logo">Project Hub</div>
+  <h2>{% if mode == 'login' %}Log in{% else %}Create account{% endif %}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn full" type="submit">{% if mode == 'login' %}Log in{% else %}Register{% endif %}</button>
+  </form>
+  <p class="meta">
+    {% if mode == 'login' %}No account? <a href="{% url 'register' %}">Register</a>
+    {% else %}Have an account? <a href="{% url 'login' %}">Log in</a>{% endif %}
+  </p>
+</div>
+</body>
+</html>
