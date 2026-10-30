@@ -21,7 +21,9 @@ _load_env(BASE_DIR / '.env')
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-only-change-me')
 GROQ_API_KEY = os.environ.get('GROQ_API_KEY', '')
 DEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+# Accept all hosts: required for Render/Railway previews where the
+# generated domain (e.g. *.onrender.com) is not known in advance.
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.auth',
