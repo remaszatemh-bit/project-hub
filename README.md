@@ -118,7 +118,7 @@ Pomodoro time is flushed on pause, reset, session end, and every 15 seconds.
 Demo video
 A short walkthrough of Project Hub (creating tasks, dragging cards, Pomodoro tracking, analytics):
 
-YouTube: https://youtu.be/CHg7wSSltqI
+YouTube: https://youtu.be/6MxyFW_Cy8w
 
 The same demo video is bundled in the repository at hub/static/hub/demo.mp4 and displayed on the landing page.
 
