@@ -25,6 +25,9 @@ DEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'
 # generated domain (e.g. *.onrender.com) is not known in advance.
 ALLOWED_HOSTS = ['*']
 
+# Origins trusted for POST/PUT/PATCH/DELETE behind HTTPS proxies (Render).
+CSRF_TRUSTED_ORIGINS = ['https://project-hub-ht5j.onrender.com']
+
 INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
