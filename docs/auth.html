@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Project Hub · Sign in</title>
+    <link rel="icon" href="static/favicon.ico?v=3" sizes="any" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="256x256"
+      href="static/logo_256.png?v=3"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="static/logo_32.png?v=3"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="static/logo_16.png?v=3"
+    />
+    <link rel="stylesheet" href="static/style.css" />
+  </head>
+  <body class="auth-body">
+    <div class="auth-card">
+      <div class="logo">
+        <img src="static/logo_128.png" alt="" class="side-logo" />Project Hub
+      </div>
+      <h2 id="mode-title">Log in</h2>
+      <form id="auth-form">
+        <input
+          id="name"
+          type="text"
+          placeholder="Your name"
+          autocomplete="name"
+          style="display: none"
+        />
+        <input
+          id="email"
+          type="email"
+          placeholder="Email"
+          required
+          autocomplete="email"
+          inputmode="email"
+        />
+        <input
+          id="password"
+          type="password"
+          placeholder="Password"
+          required
+          minlength="6"
+          autocomplete="current-password"
+        />
+        <button class="btn full" type="submit" id="submit-btn">Log in</button>
+      </form>
+      <p class="meta" id="switch-line">
+        No account? <a href="?mode=register">Register</a>
+      </p>
+      <p class="meta">
+        <a href="index.html">← Back to home</a> ·
+        <a href="privacy.html">Privacy Policy</a>
+      </p>
+      <p class="meta" id="msg" style="color: var(--danger)"></p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="static/config.js"></script>
+    <script src="static/auth.js"></script>
+  </body>
+</html>

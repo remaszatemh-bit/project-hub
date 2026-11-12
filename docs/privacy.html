@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Project Hub · Privacy Policy</title>
+    <meta
+      name="description"
+      content="Project Hub privacy policy: what we collect, how we use it, and your rights."
+    />
+    <link rel="icon" href="static/favicon.ico?v=3" sizes="any" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="256x256"
+      href="static/logo_256.png?v=3"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="static/logo_32.png?v=3"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="static/logo_16.png?v=3"
+    />
+    <link rel="stylesheet" href="static/style.css" />
+    <link rel="stylesheet" href="static/landing.css" />
+    <style>
+      .legal {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 40px 22px 80px;
+      }
+      .legal h1 {
+        font-size: 30px;
+        margin: 10px 0 6px;
+      }
+      .legal .updated {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .legal .summary {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 14px 18px;
+        margin: 18px 0 34px;
+        font-size: 14px;
+      }
+      .legal h2 {
+        font-size: 20px;
+        margin: 34px 0 10px;
+        color: var(--accent);
+      }
+      .legal p,
+      .legal li {
+        line-height: 1.9;
+        font-size: 14px;
+        color: var(--text);
+      }
+      .legal ul {
+        padding-left: 20px;
+      }
+      .legal a {
+        color: var(--accent);
+      }
+      .legal .warn {
+        border-left: 3px solid var(--warn);
+        background: var(--card);
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin: 12px 0;
+      }
+      .contact-box {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 20px;
+        margin-top: 16px;
+      }
+      .contact-box input,
+      .contact-box textarea {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+      .contact-box textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+      #contact-status {
+        font-size: 13px;
+        margin-top: 8px;
+      }
+    </style>
+  </head>
+  <body class="landing">
+    <nav class="topnav">
+      <div class="brand">
+        <img src="static/logo_128.png" alt="" class="brand-logo" />Project Hub
+      </div>
+      <div class="navlinks">
+        <a href="index.html">Home</a>
+        <a href="index.html#features">Features</a>
+      </div>
+      <div class="navcta">
+        <a class="btn" href="auth.html?mode=register">Get started</a>
+      </div>
+    </nav>
+
+    <main class="legal">
+      <h1>Privacy Policy</h1>
+      <p class="updated">Last updated: November 11, 2026</p>
+
+      <div class="summary">
+        At Project Hub we respect your privacy. We collect the minimum amount of
+        data possible: your email to sign in, and the tasks you write yourself.
+        We never sell your data or share it for advertising, and the AI
+        assistant only sends the task text to Groq to produce suggestions.
+      </div>
+
+      <h2>1) Who we are</h2>
+      <p>
+        Project Hub is a task management website (Kanban board, Pomodoro timer,
+        calendar, and analytics), operated and managed by the project owner as
+        an individual. To contact us, use the email:
+        <a href="mailto:rymaszatemh@gmail.com">rymaszatemh@gmail.com</a>, or the
+        contact form at the bottom of this page.
+      </p>
+
+      <h2>2) Data we collect</h2>
+      <ul>
+        <li>
+          <b>Account data:</b> your email address and password when you create
+          an account. Accounts are managed through Supabase Auth, and passwords
+          are stored hashed — nobody, including us, can read them.
+        </li>
+        <li>
+          <b>Task data:</b> task titles, status, priority, tag, due date,
+          tracked time, and any subtasks you create.
+        </li>
+        <li>
+          <b>AI assistant:</b> the task title you request help with is sent to
+          Groq for processing (details in section 4).
+        </li>
+        <li>
+          <b>Limited technical data:</b> our hosting provider (GitHub Pages) and
+          Supabase may log standard technical information such as browser type
+          and IP address in their operational logs, under their own policies. We
+          use no tracking or advertising cookies; the only cookies are the
+          technical ones needed to keep your session signed in.
+        </li>
+      </ul>
+
+      <h2>3) How we use data</h2>
+      <ul>
+        <li>
+          Operating the site and verifying your identity when you sign in.
+        </li>
+        <li>
+          Saving your tasks and projects and showing them on any device you sign
+          in from.
+        </li>
+        <li>
+          Providing AI assistant suggestions (breaking down tasks, estimating
+          time, improving titles).
+        </li>
+        <li>Fixing bugs and improving the service in general.</li>
+      </ul>
+      <p>
+        We do not use your data for training, advertising, or sell it to anyone.
+      </p>
+
+      <h2>4) The AI assistant and Groq</h2>
+      <p>
+        When you press one of the AI assistant buttons,
+        <b>only the task title text</b> is sent to the Groq API, which returns a
+        suggestion (such as breaking the task into subtasks). The provider is
+        Groq Inc., and their
+        <a
+          href="https://groq.com/privacy-policy/"
+          target="_blank"
+          rel="noopener"
+          >privacy policy</a
+        >
+        applies to that processing.
+      </p>
+      <ul>
+        <li>
+          Project Hub does not keep a copy of the conversation itself; what we
+          store is only the result (for example, the subtasks you accepted).
+        </li>
+        <li>
+          Groq may retain requests according to their own policies and
+          operational logs; see their policy for details.
+        </li>
+      </ul>
+      <div class="warn">
+        <b>Warning:</b> do not put highly sensitive information — passwords,
+        bank card numbers, or health data — into tasks or AI conversations.
+        Content you send is processed by a third party.
+      </div>
+
+      <h2>5) Third parties we rely on</h2>
+      <ul>
+        <li><b>GitHub Pages</b> — website hosting (static pages).</li>
+        <li>
+          <b>Supabase</b> — database (Postgres) and account authentication.
+        </li>
+        <li><b>Groq</b> — processing AI assistant requests.</li>
+        <li><b>EmailJS</b> — delivering the contact form messages to us.</li>
+      </ul>
+      <p>We currently use no advertising or analytics tools.</p>
+
+      <h2>6) Security</h2>
+      <ul>
+        <li>
+          Connections to the site and its services are encrypted over HTTPS.
+        </li>
+        <li>
+          Passwords are stored hashed in Supabase and are never exposed to
+          anyone.
+        </li>
+        <li>
+          Each user's data is protected by Row Level Security, so no user can
+          read or modify another user's data.
+        </li>
+        <li>
+          Communication with Groq happens directly from the browser with a
+          limited-scope key.
+        </li>
+      </ul>
+      <p>
+        That said, no system is 100% secure, and we ask you to use a strong,
+        unique password for this site.
+      </p>
+
+      <h2>7) Data retention and deletion</h2>
+      <p>
+        We keep your data for as long as your account exists. To delete your
+        account and data permanently, email us at the address above and your
+        tasks, projects, and account will be deleted from the database within
+        <b>14 days</b> of the request (usually much sooner). Deleting a single
+        task happens instantly from inside the site itself.
+      </p>
+
+      <h2>8) Your rights</h2>
+      <p>You have the right to:</p>
+      <ul>
+        <li>
+          Access your data (all of it is visible inside the site at any time).
+        </li>
+        <li>
+          Correct it (edit any task or project directly in the interface).
+        </li>
+        <li>
+          Delete it (delete tasks one by one, or request full account deletion).
+        </li>
+        <li>
+          Stop using the service and withdraw consent by deleting your account.
+        </li>
+      </ul>
+
+      <h2>9) Children's privacy</h2>
+      <p>
+        The site is intended for general use by people aged 13 and over. We do
+        not knowingly collect data from children under 13, and if we discover an
+        account belonging to a child under 13 we will delete it.
+      </p>
+
+      <h2>10) Changes to this policy</h2>
+      <p>
+        We may update this policy from time to time (for example when adding a
+        feature or a new provider). We will update the "Last updated" date at
+        the top of this page with every material change, and important changes
+        will be announced inside the site.
+      </p>
+
+      <h2>11) Contact us</h2>
+      <p>
+        For any question or request related to privacy (access, correction,
+        deletion), email
+        <a href="mailto:rymaszatemh@gmail.com">rymaszatemh@gmail.com</a>
+        or use the form below — we will reply within a reasonable time.
+      </p>
+
+      <div class="contact-box">
+        <h3 style="margin: 0 0 12px">Contact form</h3>
+        <form id="contact-form" novalidate>
+          <input type="text" name="name" placeholder="Your name" required />
+          <input
+            type="text"
+            name="email"
+            placeholder="Your email"
+            required
+            autocomplete="email"
+            inputmode="email"
+          />
+          <textarea
+            name="message"
+            placeholder="Your message"
+            required
+          ></textarea>
+          <button class="btn full" type="submit" id="contact-btn">
+            Send message
+          </button>
+        </form>
+        <p id="contact-status" class="meta"></p>
+      </div>
+    </main>
+
+    <footer class="foot">
+      <span class="foot-brand"
+        ><img src="static/logo_128.png" alt="" class="foot-logo" />Project
+        Hub</span
+      >
+      <span
+        ><a href="auth.html">Log in</a> ·
+        <a href="privacy.html">Privacy Policy</a></span
+      >
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>
+      // Wait for the EmailJS library (loaded from CDN) before wiring the form.
+      function whenEmailJsReady(cb, tries = 0) {
+        if (typeof emailjs !== "undefined") return cb();
+        if (tries > 50) return; // silently give up; send handler will show an error
+        setTimeout(() => whenEmailJsReady(cb, tries + 1), 100);
+      }
+      whenEmailJsReady(() => emailjs.init({ publicKey: "ABuGsHZXiuGl4mhjF" }));
+
+      document
+        .getElementById("contact-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const btn = document.getElementById("contact-btn");
+          const status = document.getElementById("contact-status");
+          const email = e.target.email.value.trim();
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            status.style.color = "var(--danger)";
+            status.textContent = "Please enter a valid email address.";
+            e.target.email.focus();
+            return;
+          }
+          btn.disabled = true;
+          btn.textContent = "Sending…";
+          status.textContent = "";
+          try {
+            if (typeof emailjs === "undefined")
+              throw new Error("email service not loaded");
+            await emailjs.send("service_nyl6qw8", "template_ploitwc", {
+              name: e.target.name.value,
+              email: e.target.email.value,
+              message: e.target.message.value,
+            });
+            status.style.color = "var(--ok)";
+            status.textContent = "Message sent! We will get back to you soon.";
+            e.target.reset();
+          } catch (err) {
+            status.style.color = "var(--danger)";
+            status.textContent = "Sending failed: " + (err.text || err.message);
+          }
+          btn.disabled = false;
+          btn.textContent = "Send message";
+        });
+    </script>
+  </body>
+</html>
