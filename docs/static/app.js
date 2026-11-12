@@ -19,41 +19,37 @@ const TITLES = {
 };
 const PRI = ["High", "Medium", "Low"];
 
-/* ---------- Groq AI assistant ---------- */
-/* The key is NOT stored in the code (GitHub blocks pushes containing secret
-   keys). Instead, each visitor enters their own free key once — it is saved
-   in their browser only (localStorage) and never uploaded anywhere.
-   Get a free key at: https://console.groq.com/keys */
-const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
+/* ---------- Groq AI assistant (Vercel Backend Integration) ---------- */
+const AI_URL = "/api/chat";
 const AI_MODEL = "openai/gpt-oss-20b";
 
-function getGroqKey() {
-  return localStorage.getItem("projecthub_groq_key") || "";
+async function aiChat(messages, maxTokens = 600) {
+  const r = await fetch(AI_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: AI_MODEL,
+      messages,
+      temperature: 0.4,
+      max_tokens: maxTokens,
+    }),
+  });
+  if (!r.ok) {
+    const errData = await r.json().catch(() => ({}));
+    throw new Error(
+      errData.error || "AI service unavailable (" + r.status + ")",
+    );
+  }
+  const data = await r.json();
+  return data.choices[0].message.content;
 }
 
-async function aiChat(messages, maxTokens = 600) {
-  const key = getGroqKey();
-  if (!key) {
-    const entered = prompt(
-      "The AI assistant needs a free Groq API key.\n" +
-        "Get one at console.groq.com/keys and paste it here (it is saved in your browser only):",
-    );
-    if (!entered || !entered.trim()) throw new Error("No Groq API key provided");
-    localStorage.setItem("projecthub_groq_key", entered.trim());
-  }
-  const r = await fetch(GROQ_URL, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${getGroqKey()}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ model: AI_MODEL, messages, temperature: 0.4, max_tokens: maxTokens }),
-  });
-  if (!r.ok) throw new Error("AI service unavailable (" + r.status + ")");
-  return (await r.json()).choices[0].message.content;
-}
 function aiParse(content) {
   try {
     return JSON.parse(content);
   } catch (e) {
-    const start = content.indexOf("{"), end = content.lastIndexOf("}") + 1;
+    const start = content.indexOf("{"),
+      end = content.lastIndexOf("}") + 1;
     if (start === -1 || end === 0) return null;
     try {
       return JSON.parse(content.slice(start, end));
@@ -69,10 +65,17 @@ const aiSafe = (text, fallback) => {
 
 /* Break a task into 3-5 subtasks. Returns array of strings or null. */
 async function aiSubdivideTitles(title) {
-  const content = await aiChat([
-    { role: "system", content: 'You are a project planning assistant. Break the given task into 3 to 5 small, concrete, actionable subtasks. Answer ONLY with JSON: {"subtasks": ["...", "..."]}' },
-    { role: "user", content: `Task: ${title}` },
-  ], 400);
+  const content = await aiChat(
+    [
+      {
+        role: "system",
+        content:
+          'You are a project planning assistant. Break the given task into 3 to 5 small, concrete, actionable subtasks. Answer ONLY with JSON: {"subtasks": ["...", "..."]}',
+      },
+      { role: "user", content: `Task: ${title}` },
+    ],
+    400,
+  );
   const data = aiParse(content);
   const subs = data && Array.isArray(data.subtasks) ? data.subtasks : null;
   if (!subs) return null;
@@ -81,23 +84,40 @@ async function aiSubdivideTitles(title) {
 
 /* Estimate Pomodoro sessions for a task. Returns {sessions, reason} or null. */
 async function aiEstimatePomodoros(title) {
-  const content = await aiChat([
-    { role: "system", content: 'You estimate how many 25-minute Pomodoro sessions a task needs. Answer ONLY with JSON: {"sessions": <integer between 1 and 16>, "reason": "<max 15 words>"}. Skip any reasoning; output the JSON directly.' },
-    { role: "user", content: `Task: ${title}` },
-  ], 500);
+  const content = await aiChat(
+    [
+      {
+        role: "system",
+        content:
+          'You estimate how many 25-minute Pomodoro sessions a task needs. Answer ONLY with JSON: {"sessions": <integer between 1 and 16>, "reason": "<max 15 words>"}. Skip any reasoning; output the JSON directly.',
+      },
+      { role: "user", content: `Task: ${title}` },
+    ],
+    500,
+  );
   const data = aiParse(content);
   if (!data || typeof data !== "object") return null;
   const sessions = parseInt(data.sessions, 10);
   if (isNaN(sessions)) return null;
-  return { sessions: Math.max(1, Math.min(sessions, 16)), reason: aiSafe(data.reason, "") };
+  return {
+    sessions: Math.max(1, Math.min(sessions, 16)),
+    reason: aiSafe(data.reason, ""),
+  };
 }
 
 /* Suggest an improved, shorter title for a task. Returns string or null. */
 async function aiSuggestTitle(title) {
-  const content = await aiChat([
-    { role: "system", content: 'You improve short task titles into clearer, more concise ones. Answer ONLY with JSON: {"title": "<improved concise title, max 12 words>"}' },
-    { role: "user", content: `Task title: ${title}` },
-  ], 300);
+  const content = await aiChat(
+    [
+      {
+        role: "system",
+        content:
+          'You improve short task titles into clearer, more concise ones. Answer ONLY with JSON: {"title": "<improved concise title, max 12 words>"}',
+      },
+      { role: "user", content: `Task title: ${title}` },
+    ],
+    300,
+  );
   const data = aiParse(content);
   if (!data || !data.title || typeof data.title !== "string") return null;
   return aiSafe(data.title, "");
@@ -119,7 +139,6 @@ const THEME_KEY = "projecthub_theme";
 /* In-memory cache of the signed-in user's rows. */
 let DB = { tasks: [], projects: [] };
 
-/* All writes go to Supabase; localStorage is no longer used for data. */
 async function reloadDB() {
   const uid = (await sb.auth.getUser()).data.user?.id;
   if (!uid) return;
@@ -138,7 +157,11 @@ async function reloadDB() {
     time_spent: t.time_spent,
     project_id: t.project_id,
     completed_at: t.completed_at,
-    subtasks: (t.subtasks || []).map((s) => ({ id: s.id, title: s.title, done: s.done })),
+    subtasks: (t.subtasks || []).map((s) => ({
+      id: s.id,
+      title: s.title,
+      done: s.done,
+    })),
   }));
 }
 
@@ -146,17 +169,14 @@ function sbErr(res) {
   if (res.error) throw new Error(res.error.message);
 }
 
-/* Refresh the in-memory cache from the server, then re-render. */
 async function reloadDBAndRender() {
   await reloadDB();
   render();
 }
 
-/* Returns the numeric id of the inserted row. */
 async function dbInsertTask(t) {
   const { data: userData, error: userErr } = await sb.auth.getUser();
   if (userErr || !userData?.user) {
-    /* Session missing/expired — send the user to log in again. */
     location.href = "auth.html";
     throw new Error("Session expired. Please log in again.");
   }
@@ -192,7 +212,11 @@ async function dbDeleteTask(id) {
 }
 
 async function dbInsertSub(taskId, title) {
-  const res = await sb.from("subtasks").insert({ task_id: taskId, title }).select("id").single();
+  const res = await sb
+    .from("subtasks")
+    .insert({ task_id: taskId, title })
+    .select("id")
+    .single();
   sbErr(res);
   return res.data.id;
 }
@@ -207,12 +231,15 @@ async function dbInsertProject(name) {
     location.href = "auth.html";
     throw new Error("Session expired. Please log in again.");
   }
-  const res = await sb.from("projects").insert({ user_id: userData.user.id, name }).select("id").single();
+  const res = await sb
+    .from("projects")
+    .insert({ user_id: userData.user.id, name })
+    .select("id")
+    .single();
   sbErr(res);
   return res.data.id;
 }
 
-/* Guard: redirects to the login page when there is no session. */
 async function requireLogin() {
   const { data } = await sb.auth.getSession();
   if (!data.session) {
@@ -221,7 +248,7 @@ async function requireLogin() {
   }
 }
 
-let uid = null; // set after login; ids come from the database now
+let uid = null;
 const S = {
   view: "kanban",
   theme: localStorage.getItem(THEME_KEY) || "dark",
@@ -479,7 +506,10 @@ async function upd(id, field, value) {
   if (field === "status")
     t.completed_at = t.status === "done" ? t.completed_at || todayISO() : null;
   try {
-    await dbUpdateTask(id, { [field]: t[field] === undefined ? t.due_date : t[field], completed_at: t.completed_at });
+    await dbUpdateTask(id, {
+      [field]: t[field] === undefined ? t.due_date : t[field],
+      completed_at: t.completed_at,
+    });
   } catch (e) {
     alert("Save failed: " + e.message);
   }
@@ -612,7 +642,9 @@ function aiEstimate(taskId) {
       alert("The AI could not estimate this task, try again.");
       return;
     }
-    alert(`AI suggests ${est.sessions} Pomodoro session${est.sessions > 1 ? "s" : ""} (25 min each)${est.reason ? ": " + est.reason : ""}`);
+    alert(
+      `AI suggests ${est.sessions} Pomodoro session${est.sessions > 1 ? "s" : ""} (25 min each)${est.reason ? ": " + est.reason : ""}`,
+    );
   });
 }
 
@@ -668,17 +700,6 @@ function analyticsData() {
   const total = DB.tasks.length;
   const done = DB.tasks.filter((t) => t.status === "done").length;
   const spent = DB.tasks.reduce((a, t) => a + t.time_spent, 0);
-  const today = new Date();
-  const weekly = [];
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(d.getDate() - i);
-    const k = localDate(d);
-    weekly.push({
-      label: d.toLocaleDateString("en", { weekday: "short" }),
-      done: DB.tasks.filter((t) => t.completed_at === k).length,
-    });
-  }
   return {
     total,
     active: total - done,
@@ -719,7 +740,7 @@ function loadAnalytics() {
     : "#383e4f 0 100%";
   $("an-donut").style.background = `conic-gradient(${grad})`;
   $("an-rate").textContent = a.completion_rate + "%";
-  const week = analyticsData ? lastWeek() : [];
+  const week = lastWeek();
   const mx = Math.max(1, ...week.map((w) => w.done));
   const pts = week
     .map((w, i) => `${i * 70 + 20},${150 - (w.done / mx) * 120}`)
@@ -787,14 +808,14 @@ C.addEventListener("drop", (e) => {
     .forEach((x) => x.classList.remove("over"));
   const t = findTask(e.dataTransfer.getData("text/plain"));
   if (t && t.status !== d.dataset.col) {
-    const prevStatus = t.status, prevCompleted = t.completed_at;
+    const prevStatus = t.status,
+      prevCompleted = t.completed_at;
     t.status = d.dataset.col;
     t.completed_at = t.status === "done" ? t.completed_at || todayISO() : null;
     render();
     dbUpdateTask(t.id, { status: t.status, completed_at: t.completed_at })
       .then(reloadDBAndRender)
       .catch((e) => {
-        /* Roll back the optimistic move and tell the user. */
         t.status = prevStatus;
         t.completed_at = prevCompleted;
         alert("Save failed: " + e.message);
@@ -840,10 +861,11 @@ window.addEventListener("pagehide", flushPomo);
     await reloadDB();
     const { data } = await sb.auth.getUser();
     const meta = data.user?.user_metadata || {};
-    const label = meta.full_name || (data.user?.email || "account").split("@")[0];
+    const label =
+      meta.full_name || (data.user?.email || "account").split("@")[0];
     $("who").textContent = label;
   } catch (e) {
-    return; // requireLogin already redirected
+    return;
   }
   render();
 })();
